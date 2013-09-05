@@ -42,7 +42,7 @@
     self.label.text = greeting;
 }
 
-- (BOOL) textFieldShouldReturn:(UITextField *)theTextField {
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
     if(theTextField == self.textField){
         [theTextField resignFirstResponder];
     }
@@ -50,7 +50,7 @@
     return YES;
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [[event allTouches] anyObject];
     if([self.textField isFirstResponder] && [touch view] != self.textField ){
         [self.textField resignFirstResponder];
