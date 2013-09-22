@@ -10,6 +10,8 @@
 
 @interface HelloWorldViewController : UIViewController <UITextFieldDelegate>
 
-@property (copy, nonatomic) NSString *userName;
+@property (copy, nonatomic) NSString *firstChoice;
+@property (copy, nonatomic) NSString *secondChoice;
+
 
 @end

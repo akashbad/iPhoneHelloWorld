@@ -9,10 +9,16 @@
 #import "HelloWorldViewController.h"
 
 @interface HelloWorldViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *label;
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-- (IBAction)changeGreeting:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *player1;
+@property (weak, nonatomic) IBOutlet UILabel *player2;
+@property (weak, nonatomic) IBOutlet UILabel *whoChooses;
 
+- (IBAction)selectRock:(id)sender;
+- (IBAction)selectPaper:(id)sender;
+- (IBAction)selectScissor:(id)sender;
+- (IBAction)reset:(id)sender;
+
+- (void)selectOption:(NSString*)option;
 @end
 
 @implementation HelloWorldViewController
@@ -29,32 +35,52 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)changeGreeting:(id)sender {
-    self.userName = self.textField.text;
-    
-    NSString *nameString = [self.userName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if([nameString length] == 0){
-        nameString = @"World";
-    }
-    
-    NSString *greeting = [[NSString alloc] initWithFormat:@"Hello, %@!", nameString];
-    
-    self.label.text = greeting;
+- (IBAction)selectRock:(id)sender {
+    [self selectOption:@"rock"];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if(theTextField == self.textField){
-        [theTextField resignFirstResponder];
-    }
-    
-    return YES;
+- (IBAction)selectPaper:(id)sender {
+    [self selectOption:@"paper"];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [[event allTouches] anyObject];
-    if([self.textField isFirstResponder] && [touch view] != self.textField ){
-        [self.textField resignFirstResponder];
-    }
-    [super touchesBegan:touches withEvent:event];
+- (IBAction)selectScissor:(id)sender {
+    [self selectOption:@"scissors"];
 }
+
+- (IBAction)reset:(id)sender {
+    self.firstChoice = nil;
+    self.secondChoice = nil;
+    self.whoChooses.text = @"First Player Choose";
+    self.player1.text = @"";
+    self.player2.text = @"";
+    
+}
+
+- (void)selectOption:(NSString*)option {
+    if(!self.firstChoice){
+        self.firstChoice = option;
+        self.whoChooses.text = @"Second Player Choose";
+        self.player1.text = option;
+    }
+    else if (!self.secondChoice){
+        self.secondChoice = option;
+        self.player2.text = option;
+        if([self rpsBeats]){
+            self.whoChooses.text = @"Player 1 Wins!";
+        }
+        else {
+            self.whoChooses.text = @"Player 2 Wins!";
+        }
+    }
+}
+
+-(BOOL)rpsBeats{
+    if (([self.firstChoice isEqualToString:@"rock"] && [self.secondChoice isEqualToString:@"scissors"]) ||
+        ([self.firstChoice isEqualToString:@"scissors"] && [self.secondChoice isEqualToString:@"paper"]) ||
+        ([self.firstChoice isEqualToString:@"paper"] && [self.secondChoice isEqualToString:@"rock"])) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
